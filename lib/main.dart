@@ -9,9 +9,9 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // primary: FAD643 f4a734 fef3a1
-  // secondary: 1E96FC 1d63c8 e3f2fe
+  // * colors
+  // primary: FAD643 F4A734 FEF3A1
+  // secondary: 1E96FC 1D63C8 E3F2FE
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
