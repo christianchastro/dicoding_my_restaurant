@@ -25,16 +25,18 @@ class RestaurantPage extends StatelessWidget {
                 RestaurantDetailImage(restaurant: restaurant),
                 const SizedBox(height: 20),
                 RestaurantDetailInfo(restaurant: restaurant),
-                if (restaurant.menus.foods.isNotEmpty) ...[
+                if (restaurant.menus != null &&
+                    restaurant.menus!.foods.isNotEmpty) ...[
                   const SizedBox(height: 20),
                   RestaurantDetailFoods(
-                    foods: restaurant.menus.foods,
+                    foods: restaurant.menus!.foods,
                   ),
                 ],
-                if (restaurant.menus.drinks.isNotEmpty) ...[
+                if (restaurant.menus != null &&
+                    restaurant.menus!.drinks.isNotEmpty) ...[
                   const SizedBox(height: 20),
                   RestaurantDetailDrinks(
-                    drinks: restaurant.menus.drinks,
+                    drinks: restaurant.menus!.drinks,
                   ),
                 ],
                 const SizedBox(height: 20),
