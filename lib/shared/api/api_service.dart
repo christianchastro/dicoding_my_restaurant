@@ -5,6 +5,8 @@ import 'package:my_restaurant/shared/response/restaurants_response.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_restaurant/shared/response/reviews_response.dart';
 
+enum ApiResultState { loading, noData, hasData, error }
+
 class ApiService {
   static const String _baseUrl = "https://restaurant-api.dicoding.dev/";
   static const String urlImageSmall = "${_baseUrl}images/small/";

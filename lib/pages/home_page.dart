@@ -1,9 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:my_restaurant/shared/api/api_service.dart';
 import 'package:my_restaurant/shared/model/restaurant_model.dart';
+import 'package:my_restaurant/shared/provider/restaurants_provider.dart';
 import 'package:my_restaurant/shared/styling/my_text_style.dart';
 import 'package:my_restaurant/shared/widgets/restaurant_card.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -70,6 +73,68 @@ class _HomePageState extends State<HomePage> {
     if (mounted) {
       setState(() {});
     }
+  }
+
+  Widget _buildListRestaurant() {
+    return Consumer<RestaurantsProvider>(builder: (context, value, _) {
+      switch (value.state) {
+        case ApiResultState.loading:
+          return const Center(child: CircularProgressIndicator());
+        case ApiResultState.hasData:
+          return ListView.separated(
+            physics: const NeverScrollableScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            itemCount: value.response.restaurants!.length,
+            shrinkWrap: true,
+            separatorBuilder: (_, __) => const SizedBox(height: 10),
+            itemBuilder: (context, index) =>
+                RestaurantCard(restaurant: value.response.restaurants![index]),
+          );
+        case ApiResultState.noData:
+        case ApiResultState.error:
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              value.message,
+              style: MyTextStyle.subTitle(),
+            ),
+          );
+        default:
+          return const SizedBox();
+      }
+      // TODO: Delete this code
+      // if (value.state == ApiResultState.loading) {
+      //   return const Center(child: CircularProgressIndicator());
+      // } else if (value.state == ApiResultState.hasData) {
+      //   return ListView.separated(
+      //     physics: const NeverScrollableScrollPhysics(),
+      //     padding: const EdgeInsets.symmetric(horizontal: 16),
+      //     itemCount: value.response.restaurants!.length,
+      //     shrinkWrap: true,
+      //     separatorBuilder: (_, __) => const SizedBox(height: 10),
+      //     itemBuilder: (context, index) =>
+      //         RestaurantCard(restaurant: value.response.restaurants![index]),
+      //   );
+      // } else if (value.state == ApiResultState.noData) {
+      //   return Padding(
+      //     padding: const EdgeInsets.symmetric(horizontal: 16),
+      //     child: Text(
+      //       value.message,
+      //       style: MyTextStyle.subTitle(),
+      //     ),
+      //   );
+      // } else if (value.state == ApiResultState.error) {
+      //   return Padding(
+      //     padding: const EdgeInsets.symmetric(horizontal: 16),
+      //     child: Text(
+      //       value.message,
+      //       style: MyTextStyle.subTitle(),
+      //     ),
+      //   );
+      // } else {
+      //   return const SizedBox();
+      // }
+    });
   }
 
   @override
@@ -140,23 +205,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                if (filtered.isEmpty)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      "No Data Restaurant",
-                      style: MyTextStyle.subTitle(),
-                    ),
-                  ),
-                ListView.separated(
-                  physics: const NeverScrollableScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  itemCount: filtered.length,
-                  shrinkWrap: true,
-                  separatorBuilder: (_, __) => const SizedBox(height: 10),
-                  itemBuilder: (context, index) =>
-                      RestaurantCard(restaurant: filtered[index]),
-                ),
+                _buildListRestaurant(),
                 const SizedBox(height: 20),
               ],
             ),
