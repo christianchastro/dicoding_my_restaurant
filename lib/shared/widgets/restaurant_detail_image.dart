@@ -14,7 +14,7 @@ class RestaurantDetailImage extends StatelessWidget {
       tag: restaurant.id,
       child: Stack(
         children: [
-          Image.network(restaurant.pictureId),
+          Image.network(restaurant.mediumImage),
           Positioned(
             top: 16,
             left: 16,

@@ -19,8 +19,8 @@ class RestaurantsResponse extends MyResponse {
 
   factory RestaurantsResponse.fromJson(Map<String, dynamic> json) =>
       RestaurantsResponse(
-        error: json["error"] as bool,
-        message: json["message"] as String,
+        error: json["error"] as bool? ?? false,
+        message: json["message"] as String? ?? "",
         count: (json["count"] as num?)?.toInt() ?? 0,
         founded: (json["founded"] as num?)?.toInt() ?? 0,
         restaurants: json["restaurants"] == null

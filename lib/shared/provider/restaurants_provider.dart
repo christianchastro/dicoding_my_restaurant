@@ -15,13 +15,38 @@ class RestaurantsProvider extends ChangeNotifier {
   ApiResultState get state => _state;
 
   RestaurantsProvider({required this.apiService}) {
-    _getAllRestaurant();
+    getAllRestaurant();
   }
-  Future<dynamic> _getAllRestaurant() async {
+  Future<dynamic> getAllRestaurant() async {
     try {
       _state = ApiResultState.loading;
       notifyListeners();
       final result = await apiService.getListRestaurant();
+      if (result.restaurants == null || result.restaurants!.isEmpty) {
+        _state = ApiResultState.noData;
+        notifyListeners();
+        return _message = "No Data Restaurant";
+      } else {
+        _state = ApiResultState.hasData;
+        notifyListeners();
+        return _response = result;
+      }
+    } on SocketException catch (_) {
+      _state = ApiResultState.error;
+      notifyListeners();
+      return _message = "Please Check Your Internet Connection";
+    } catch (e) {
+      _state = ApiResultState.error;
+      notifyListeners();
+      return _message = "";
+    }
+  }
+
+  Future<dynamic> searchRestaurant(String query) async {
+    try {
+      _state = ApiResultState.loading;
+      notifyListeners();
+      final result = await apiService.getSearchRestaurant(query);
       if (result.restaurants == null || result.restaurants!.isEmpty) {
         _state = ApiResultState.noData;
         notifyListeners();

@@ -13,7 +13,7 @@ class ApiService {
   static const String urlImageMedium = "${_baseUrl}images/medium/";
   static const String urlImageLarge = "${_baseUrl}images/large/";
   static const Map<String, String> _headersPost = {
-    "Content-Type": "application/x-www-form-urlencoded | application/json",
+    "Content-Type": "application/json",
   };
 
   Uri _stringToUri(String url) {
@@ -61,9 +61,9 @@ class ApiService {
       final response = await http.post(
         _stringToUri("${_baseUrl}review"),
         headers: _headersPost,
-        body: json.decode(json.encode(body)),
+        body: json.encode(body),
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         return ReviewsResponse.fromJson(json.decode(response.body));
       }
     }

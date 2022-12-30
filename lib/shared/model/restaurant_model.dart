@@ -13,7 +13,7 @@ class RestaurantModel {
   final List<CategoryModel>? categories;
   final MenuModel? menus;
   final double rating;
-  final List<CustomerReview>? customerReviews;
+  final List<CustomerReview> customerReviews;
 
   const RestaurantModel({
     required this.id,
@@ -25,7 +25,7 @@ class RestaurantModel {
     this.categories,
     this.menus,
     required this.rating,
-    this.customerReviews,
+    this.customerReviews = const [],
   });
 
   String get smallImage => "${ApiService.urlImageSmall}$pictureId";
@@ -47,7 +47,7 @@ class RestaurantModel {
                 json["categories"].map((x) => CategoryModel.fromJson(x))),
         menus: json["menus"] == null ? null : MenuModel.fromJson(json["menus"]),
         customerReviews: json["customerReviews"] == null
-            ? null
+            ? []
             : List<CustomerReview>.from(
                 json["customerReviews"].map((x) => CustomerReview.fromJson(x))),
       );
@@ -64,8 +64,8 @@ class RestaurantModel {
             ? null
             : List<dynamic>.from(categories!.map((x) => x.toJson())),
         "menus": menus?.toJson(),
-        "customerReviews": customerReviews == null || customerReviews!.isEmpty
-            ? null
-            : List<dynamic>.from(customerReviews!.map((x) => x.toJson())),
+        "customerReviews": customerReviews.isEmpty
+            ? []
+            : List<dynamic>.from(customerReviews.map((x) => x.toJson())),
       };
 }
