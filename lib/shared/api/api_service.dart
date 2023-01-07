@@ -8,20 +8,20 @@ import 'package:my_restaurant/shared/response/reviews_response.dart';
 enum ApiResultState { loading, noData, hasData, error }
 
 class ApiService {
-  static const String _baseUrl = "https://restaurant-api.dicoding.dev/";
-  static const String urlImageSmall = "${_baseUrl}images/small/";
-  static const String urlImageMedium = "${_baseUrl}images/medium/";
-  static const String urlImageLarge = "${_baseUrl}images/large/";
+  static const String baseUrl = "https://restaurant-api.dicoding.dev/";
+  static const String urlImageSmall = "${baseUrl}images/small/";
+  static const String urlImageMedium = "${baseUrl}images/medium/";
+  static const String urlImageLarge = "${baseUrl}images/large/";
   static const Map<String, String> _headersPost = {
     "Content-Type": "application/json",
   };
 
-  Uri _stringToUri(String url) {
+  static Uri stringToUri(String url) {
     return Uri.parse(url);
   }
 
   Future<RestaurantsResponse> getListRestaurant() async {
-    final response = await http.get(_stringToUri("${_baseUrl}list"));
+    final response = await http.get(stringToUri("${baseUrl}list"));
     if (response.statusCode == 200) {
       return RestaurantsResponse.fromJson(json.decode(response.body));
     }
@@ -30,7 +30,7 @@ class ApiService {
 
   Future<RestaurantResponse> getDetailRestaurant(String id) async {
     if (id.isNotEmpty) {
-      final response = await http.get(_stringToUri("${_baseUrl}detail/$id"));
+      final response = await http.get(stringToUri("${baseUrl}detail/$id"));
       if (response.statusCode == 200) {
         return RestaurantResponse.fromJson(json.decode(response.body));
       }
@@ -41,8 +41,7 @@ class ApiService {
   /// query = Nama / Kategori / Menu dari Restaurants
   Future<RestaurantsResponse> getSearchRestaurant(String query) async {
     if (query.isNotEmpty) {
-      final response =
-          await http.get(_stringToUri("${_baseUrl}search?q=$query"));
+      final response = await http.get(stringToUri("${baseUrl}search?q=$query"));
       if (response.statusCode == 200) {
         return RestaurantsResponse.fromJson(json.decode(response.body));
       }
@@ -59,7 +58,7 @@ class ApiService {
         "review": review
       };
       final response = await http.post(
-        _stringToUri("${_baseUrl}review"),
+        stringToUri("${baseUrl}review"),
         headers: _headersPost,
         body: json.encode(body),
       );
