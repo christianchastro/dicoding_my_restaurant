@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_restaurant/pages/favorites_page.dart';
+import 'package:my_restaurant/pages/restaurant_page.dart';
 import 'package:my_restaurant/pages/settings_page.dart';
 import 'package:my_restaurant/shared/api/api_service.dart';
+import 'package:my_restaurant/shared/helpers/notification_helper.dart';
 import 'package:my_restaurant/shared/provider/restaurants_provider.dart';
 import 'package:my_restaurant/shared/styling/my_text_style.dart';
 import 'package:my_restaurant/shared/widgets/restaurant_card.dart';
@@ -15,12 +17,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final NotificationHelper _notificationHelper = NotificationHelper();
+
   TextEditingController searchController = TextEditingController();
   bool isSearched = false;
 
   @override
+  void initState() {
+    super.initState();
+    _notificationHelper
+        .configureSelectNotificationSubject(RestaurantPage.routeName);
+  }
+
+  @override
   void dispose() {
     searchController.dispose();
+    selectNotificationSubject.close();
     super.dispose();
   }
 

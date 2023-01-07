@@ -1,10 +1,29 @@
+import 'dart:io';
+
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:my_restaurant/pages/favorites_page.dart';
 import 'package:my_restaurant/pages/home_page.dart';
 import 'package:my_restaurant/pages/restaurant_page.dart';
 import 'package:my_restaurant/pages/settings_page.dart';
+import 'package:my_restaurant/shared/helpers/background_service.dart';
+import 'package:my_restaurant/shared/helpers/navigation.dart';
+import 'package:my_restaurant/shared/helpers/notification_helper.dart';
 
-void main() {
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final NotificationHelper notificationHelper = NotificationHelper();
+  final BackgroundService service = BackgroundService();
+  service.initializeIsolate();
+  if (Platform.isAndroid) {
+    await AndroidAlarmManager.initialize();
+  }
+  await notificationHelper.initNotifications(flutterLocalNotificationsPlugin);
+
   runApp(const MyApp());
 }
 
@@ -22,6 +41,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.yellow,
         primaryColor: const Color(0xFFFAD643),
       ),
+      navigatorKey: navigatorKey,
       home: const HomePage(),
       routes: {
         RestaurantPage.routeName: (context) => RestaurantPage(
