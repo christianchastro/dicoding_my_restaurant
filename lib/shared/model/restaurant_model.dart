@@ -14,8 +14,9 @@ class RestaurantModel {
   final MenuModel? menus;
   final double rating;
   final List<CustomerReview> customerReviews;
+  bool isFavorite;
 
-  const RestaurantModel({
+  RestaurantModel({
     required this.id,
     required this.name,
     required this.description,
@@ -26,6 +27,7 @@ class RestaurantModel {
     this.menus,
     required this.rating,
     this.customerReviews = const [],
+    this.isFavorite = false,
   });
 
   String get smallImage => "${ApiService.urlImageSmall}$pictureId";

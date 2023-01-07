@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_restaurant/shared/api/api_service.dart';
+import 'package:my_restaurant/shared/helpers/database/database_helper.dart';
 import 'package:my_restaurant/shared/model/restaurant_model.dart';
 import 'package:my_restaurant/shared/provider/restaurant_provider.dart';
 import 'package:my_restaurant/shared/styling/my_text_style.dart';
@@ -20,7 +21,11 @@ class RestaurantPage extends StatelessWidget {
     return WillPopScope(
       onWillPop: () async => true,
       child: ChangeNotifierProvider(
-        create: (_) => RestaurantProvider(apiService: ApiService(), id: id),
+        create: (_) => RestaurantProvider(
+          apiService: ApiService(),
+          id: id,
+          databaseHelper: DatabaseHelper(),
+        ),
         child: Scaffold(
           backgroundColor: Colors.white,
           body: SafeArea(

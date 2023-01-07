@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_restaurant/pages/favorites_page.dart';
+import 'package:my_restaurant/pages/settings_page.dart';
 import 'package:my_restaurant/shared/api/api_service.dart';
 import 'package:my_restaurant/shared/provider/restaurants_provider.dart';
 import 'package:my_restaurant/shared/styling/my_text_style.dart';
@@ -86,6 +88,26 @@ class _HomePageState extends State<HomePage> {
               titleTextStyle: MyTextStyle.title(color: Colors.black),
               elevation: 2,
               shadowColor: const Color(0xFFf4A734),
+              actions: [
+                IconButton(
+                  constraints: const BoxConstraints(),
+                  padding: const EdgeInsets.all(4),
+                  onPressed: () {
+                    Navigator.pushNamed(context, FavoritesPage.routeName);
+                  },
+                  icon: const Icon(Icons.favorite_border_rounded),
+                ),
+                const SizedBox(width: 4),
+                IconButton(
+                  constraints: const BoxConstraints(),
+                  padding: const EdgeInsets.all(4),
+                  onPressed: () {
+                    Navigator.pushNamed(context, SettingsPage.routeName);
+                  },
+                  icon: const Icon(Icons.settings_outlined),
+                ),
+                const SizedBox(width: 12),
+              ],
             ),
             body: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),

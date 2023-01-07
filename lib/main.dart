@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:my_restaurant/pages/favorites_page.dart';
 import 'package:my_restaurant/pages/home_page.dart';
 import 'package:my_restaurant/pages/restaurant_page.dart';
+import 'package:my_restaurant/pages/settings_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,6 +27,8 @@ class MyApp extends StatelessWidget {
         RestaurantPage.routeName: (context) => RestaurantPage(
               id: ModalRoute.of(context)?.settings.arguments as String,
             ),
+        FavoritesPage.routeName: (context) => const FavoritesPage(),
+        SettingsPage.routeName: (context) => const SettingsPage(),
       },
     );
   }

@@ -5,19 +5,23 @@ import 'package:my_restaurant/shared/styling/my_text_style.dart';
 
 class RestaurantCard extends StatelessWidget {
   final RestaurantModel restaurant;
-  const RestaurantCard({super.key, required this.restaurant});
+  final Function? onReturn;
+  const RestaurantCard({super.key, required this.restaurant, this.onReturn});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: const EdgeInsets.all(8),
       minVerticalPadding: 0,
-      onTap: () {
-        Navigator.pushNamed(
+      onTap: () async {
+        await Navigator.pushNamed(
           context,
           RestaurantPage.routeName,
           arguments: restaurant.id,
         );
+        if (onReturn != null) {
+          onReturn!();
+        }
       },
       shape: RoundedRectangleBorder(
         side: const BorderSide(color: Color(0xFF1D63C8)),

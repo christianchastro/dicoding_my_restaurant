@@ -11,27 +11,27 @@ abstract class MySharedPreferences {
     return await SharedPreferences.getInstance();
   }
 
-  Future<bool> saveReminderNotification(bool isRemind) async {
+  static Future<bool> saveReminderNotification(bool isRemind) async {
     final prefs = await _getInstance;
     return prefs.setBool(_prefsReminderNotification, isRemind);
   }
 
-  Future<bool> getReminderNotification() async {
+  static Future<bool> getReminderNotification() async {
     final prefs = await _getInstance;
     return prefs.getBool(_prefsReminderNotification) ?? false;
   }
 
-  Future<bool> removeReminderNotification() async {
+  static Future<bool> removeReminderNotification() async {
     final prefs = await _getInstance;
     return prefs.remove(_prefsReminderNotification);
   }
 
-  Future<bool> saveRestaurants(List<RestaurantModel> restaurant) async {
+  static Future<bool> saveRestaurants(List<RestaurantModel> restaurant) async {
     final prefs = await _getInstance;
     return prefs.setString(_prefsRestaurants, jsonEncode(restaurant));
   }
 
-  Future<List<RestaurantModel>> getRestaurants() async {
+  static Future<List<RestaurantModel>> getRestaurants() async {
     final prefs = await _getInstance;
     Iterable result = jsonDecode(prefs.getString(_prefsRestaurants) ?? "[]");
     if (result.isEmpty) {
@@ -41,7 +41,7 @@ abstract class MySharedPreferences {
         result.map((e) => RestaurantModel.fromJson(e)));
   }
 
-  Future<bool> removeRestaurants() async {
+  static Future<bool> removeRestaurants() async {
     final prefs = await _getInstance;
     return prefs.remove(_prefsRestaurants);
   }
