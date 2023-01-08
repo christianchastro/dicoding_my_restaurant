@@ -89,10 +89,9 @@ class RestaurantsProvider extends ChangeNotifier {
       if (favorites.isNotEmpty &&
           response.restaurants != null &&
           response.restaurants!.isNotEmpty) {
-        for (int i = 0; i < favorites.length; i++) {
-          _response.restaurants!
-              .firstWhere((element) => element.id == favorites[i])
-              .isFavorite = true;
+        for (int i = 0; i < _response.restaurants!.length; i++) {
+          _response.restaurants![i].isFavorite =
+              favorites.contains(_response.restaurants![i].id);
         }
         _stateFavorite = DatabaseResultState.hasData;
         notifyListeners();
